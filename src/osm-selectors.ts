@@ -68,7 +68,7 @@ export function isGreenRoad(feature: Feature<Geometry, GeoJsonProperties>): bool
   if (p.highway === 'cycleway') {
     return true;
   }
-  if (p.highway === 'shared_lane') {
+  if (p.cycleway === 'shared_lane' || p['cycleway:left'] === 'shared_lane' || p['cycleway:right'] === 'shared_lane' || p['cycleway:both'] === 'shared_lane') {
     return true;
   }
   if (p.bicycle === 'designated' && p.highway === 'cycleway') {
@@ -77,7 +77,28 @@ export function isGreenRoad(feature: Feature<Geometry, GeoJsonProperties>): bool
   if (p.highway === 'living_street') {
     return true;
   }
+  if (p['designation'] === 'shared_path') {
+    return true;
+  }
   if (p.cycleway === 'track' || p['cycleway:left'] === 'track' || p['cycleway:right'] === 'track') {
+    return true;
+  }
+  return false
+}
+
+
+/**
+ * Is a green (safe) path if:
+ * - Is a path or footway which bikes can use
+ * @param feature 
+ * @returns 
+ */
+export function isGreenPath(feature: Feature<Geometry, GeoJsonProperties>): boolean {
+  const p = feature.properties;
+  if (p === null) {
+    return false;
+  }
+  if ((p.highway === 'path' || p.highway === 'footway') && p.bicycle === 'yes') {
     return true;
   }
   return false
