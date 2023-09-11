@@ -71,7 +71,7 @@ export function isGreenRoad(feature: Feature<Geometry, GeoJsonProperties>): bool
   if (p.cycleway === 'shared_lane' || p['cycleway:left'] === 'shared_lane' || p['cycleway:right'] === 'shared_lane' || p['cycleway:both'] === 'shared_lane') {
     return true;
   }
-  if (p.bicycle === 'designated' && p.highway === 'cycleway') {
+  if (p.bicycle === 'designated' && (p.highway === 'path' || p.highway === 'footway')) {
     return true;
   }
   if (p.highway === 'living_street') {
