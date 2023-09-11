@@ -4,7 +4,7 @@ import {
 } from "./interfaces";
 
 import { FeatureCollection, Geometry, GeoJsonProperties, Feature, GeometryObject } from 'geojson';
-import { isGreenRoad, isOrangeRoad, isRedRoad } from "./osm-selectors";
+import { isGreenRoad, isOrangeRoad, isRedRoad, isGreenPath } from "./osm-selectors";
 
 export function drawMarkerAndCard(
   item: RawOverpassNode,
@@ -61,10 +61,12 @@ export function removeStreetLayers(map: mapboxgl.Map): void {
     map.removeLayer('greenRoadsId');
     map.removeLayer('redRoadsId');
     map.removeLayer('orangeRoadsId');
+    map.removeLayer('greenPathsId');
 
     map.removeSource('greenRoads');
     map.removeSource('redRoads');
     map.removeSource('orangeRoads');
+    map.removeSource('greenPaths');
   } catch (e) {
     console.log("not removing sources - at least one doesn't exist yet");
   }
@@ -98,6 +100,14 @@ export function addStreetLayers(map: mapboxgl.Map, geoJson: FeatureCollection<Ge
     }
   });
 
+  map.addSource('greenPaths', {
+    type: 'geojson',
+    data: {
+      features: geoJson.features.filter(isGreenPath)
+      ,
+      type: "FeatureCollection"
+    }
+  });
 
 
   // Add a new layer to visualize the polygon.
@@ -139,6 +149,17 @@ export function addStreetLayers(map: mapboxgl.Map, geoJson: FeatureCollection<Ge
     },
   }, layerToAddBefore);
 
+  map.addLayer({
+    'id': 'greenPathsId',
+    'type': 'line',
+    'source': 'greenPaths', // reference the data source
+    'layout': {},
+    'paint': {
+      "line-color": "#00FF00",
+      "line-width": 1,
+      'line-opacity': 0.5
+    },
+  }, layerToAddBefore);
 }
 
 export function drawMarkersAndCards(
