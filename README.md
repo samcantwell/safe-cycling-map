@@ -4,7 +4,9 @@ Safe Cycling Map
 A map showing how safe a street is for cycling, based on (arbitrary) metrics. See the
 [key](https://github.com/jakecoppinger/safe-cycling-map/blob/main/docs/key.md) for how street safety is calculated.
 
-This is a work in progress side project. This data is not guaranteed to be accurate.
+I have added some tag selectors to capture the detailed tagging of bike lanes in Melbourne. All the other work has been done by [Jake Coppinger](https://github.com/jakecoppinger)
+
+This data is not guaranteed to be accurate.
 
 When zoomed in close, individual road and bicycle lanes are shown. When zoomed out, streets are
 coloured by their safety ratings.
